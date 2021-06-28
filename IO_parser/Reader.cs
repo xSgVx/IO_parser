@@ -77,23 +77,29 @@ namespace IO_parser
 
                     var ds = reader.AsDataSet(new ExcelDataSetConfiguration()
                     {
+                        FilterSheet = (tableReader, sheetIndex) => true,
                         ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
                         {
-                            UseHeaderRow = false
+                            UseHeaderRow = false,
                         }
                     });
                     
                     var csvContent = string.Empty;
                     int row_no = 0;
-                    while (row_no < ds.Tables[0].Rows.Count)
+                    for (int j = 0; j < ds.Tables.Count; j++)
                     {
-                        var arr = new List<string>();
-                        for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
+                        while (row_no < ds.Tables[j].Rows.Count)
                         {
-                            arr.Add(ds.Tables[0].Rows[row_no][i].ToString());
+                            var arr = new List<string>();
+                            for (int i = 0; i < ds.Tables[j].Columns.Count; i++)
+                            {
+                                arr.Add(ds.Tables[j].Rows[row_no][i].ToString());
+                            }
+
+                            row_no++;
+                            csvContent += string.Join(";", arr) + "\n";
                         }
-                        row_no++;
-                        csvContent += string.Join(";", arr) + "\n";
+                        row_no = 0;
                     }
 
                     StreamWriter csv = new StreamWriter(outputPath + "\\" + currentFile.Name.Remove(currentFile.Name.LastIndexOf(".xls")) + ".csv", false);
