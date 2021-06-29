@@ -7,51 +7,11 @@ using ExcelDataReader;
 
 namespace IO_parser
 {
+
     class Reader
     {
-        public static string inputPath = Directory.GetCurrentDirectory() + @"\files\input";
-        public static string outputPath = Directory.GetCurrentDirectory() + @"\files\output";
 
-        public static bool CheckFiles()
-        {
-            bool emptyInput = false;
-
-            Console.WriteLine("Текущая директория: {0}", Directory.GetCurrentDirectory());
-
-            if (!Directory.Exists(inputPath) || !Directory.Exists(outputPath))
-            {
-                Directory.CreateDirectory(inputPath);
-                Directory.CreateDirectory(outputPath);
-            }
-
-            try
-            {
-                string[] directoryFiles = Directory.GetFiles(inputPath);
-
-                if (directoryFiles.Length == 0)
-                {
-                    Console.WriteLine("В папке input нет файлов для чтения");
-                    emptyInput = false;
-                }
-                else
-                {
-                    Console.WriteLine("Входные файлы: ");
-                    foreach (string s in directoryFiles)
-                    {
-                        Console.WriteLine(s);
-                    }
-                    emptyInput = true;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("The process failed: {0}", e.ToString());
-            }
-
-            return emptyInput;
-        }
-        
-        public static bool SaveAsCsv()
+        public static bool SaveAsCsv(string inputPath, string outputPath)
         {
             DirectoryInfo directory = new DirectoryInfo(inputPath);
             FileInfo[] files = directory.GetFiles();
@@ -60,7 +20,7 @@ namespace IO_parser
             {
                 FileStream stream = new FileStream(currentFile.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
                 {
-                   
+
                     Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                     IExcelDataReader reader = null;
                     if (currentFile.FullName.EndsWith(".xls"))
@@ -83,7 +43,7 @@ namespace IO_parser
                             UseHeaderRow = false,
                         }
                     });
-                    
+
                     var csvContent = string.Empty;
                     int row_no = 0;
                     for (int j = 0; j < ds.Tables.Count; j++)
@@ -114,4 +74,5 @@ namespace IO_parser
         }
     }
 }
+
 

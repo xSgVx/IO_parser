@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace IO_parser
 {
@@ -6,9 +7,15 @@ namespace IO_parser
     {
         static void Main()
         {
-            Reader.CheckFiles();
-            Reader.SaveAsCsv();
+            string inputPath = Directory.GetCurrentDirectory() + @"\files\input";
+            string outputPath = Directory.GetCurrentDirectory() + @"\files\output";
+            string dictionaryPath = Directory.GetCurrentDirectory() + @"\files\dictionary";
+
+            Checker.CheckFiles(inputPath, outputPath, dictionaryPath);
+            //Reader.SaveAsCsv(inputPath, outputPath);
+            Parse.ParseCsv(outputPath, dictionaryPath);
 
         }
     }
 }
+
