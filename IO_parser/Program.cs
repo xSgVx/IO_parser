@@ -11,8 +11,8 @@ namespace IO_parser
             string outputPath = Directory.GetCurrentDirectory() + @"\files\output";
             string dictionaryPath = Directory.GetCurrentDirectory() + @"\files\dictionary";
 
-            Checker.CheckFiles(inputPath, outputPath, dictionaryPath);
-            //Reader.SaveAsCsv(inputPath, outputPath);
+            Reader.ReadFiles(inputPath, outputPath, dictionaryPath);
+            Reader.SaveAsCsv(inputPath, outputPath, dictionaryPath);
             Parse.ParseCsv(outputPath, dictionaryPath);
 
         }

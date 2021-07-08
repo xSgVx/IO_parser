@@ -16,7 +16,7 @@ namespace IO_parser
                 Console.WriteLine("Обработка файла {0} начата", currentFile.Name);
                 try
                 {
-                    StreamWriter sw = new StreamWriter(outputPath + "\\dictionary.csv", false);
+                    StreamWriter sw = new StreamWriter(outputPath + "\\dictionary.csv", true);
                     using (StreamReader sr = new StreamReader(currentFile.FullName, System.Text.Encoding.Default))
                     {
 
@@ -27,8 +27,8 @@ namespace IO_parser
                             if (line == null) break;
                             string[] splittedLine = line.Split(";");
                             if (splittedLine.Length <= 3) continue;
-                            if ((splittedLine[1] == "") || (splittedLine[1] == " ") || (splittedLine[3] == "") || (splittedLine[3] == " ") || (splittedLine[1].Contains("Резерв"))) continue;
-                            else sw.WriteLine(splittedLine[1] + ";" + splittedLine[3]);
+                            if ((splittedLine[1] == "") || (splittedLine[1] == " ") || (splittedLine[3] == "") || (splittedLine[3] == " ") || !splittedLine[3].Contains(".") || splittedLine[1].Contains("Резерв") ) continue;
+                            else sw.WriteLine(splittedLine[1] + ";" + splittedLine[2] + ";" + splittedLine[3]);
 
                         }
                     }

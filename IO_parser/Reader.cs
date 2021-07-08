@@ -10,11 +10,38 @@ namespace IO_parser
 
     class Reader
     {
-
-        public static bool SaveAsCsv(string inputPath, string outputPath)
+        public static FileInfo[] ReadFiles(string inputPath, string outputPath, string dictionaryPath)
         {
             DirectoryInfo directory = new DirectoryInfo(inputPath);
             FileInfo[] files = directory.GetFiles();
+
+            Console.WriteLine("Текущая директория: {0}", Directory.GetCurrentDirectory());
+
+            if (!Directory.Exists(inputPath) || !Directory.Exists(outputPath) || !Directory.Exists(dictionaryPath))
+            {
+                Directory.CreateDirectory(inputPath);
+                Directory.CreateDirectory(outputPath);
+                Directory.CreateDirectory(dictionaryPath);
+            }
+
+            if (files.Length == 0)
+            {
+                throw new Exception("В папке input нет файлов для чтения");
+            }
+            else
+            {
+                Console.WriteLine("Входные файлы: ");
+                foreach (FileInfo s in files)
+                {
+                    Console.WriteLine(s);
+                }
+                return files;
+            }
+        }
+
+        public static bool SaveAsCsv(string inputPath, string outputPath, string dictionaryPath)
+        {
+            FileInfo[] files = Reader.ReadFiles(inputPath, outputPath, dictionaryPath);
 
             foreach (FileInfo currentFile in files)
             {
